@@ -3,123 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiverse Streaming - Rick y Morty Edition</title>
-    <!-- Cargamos hls.js para la reproducción de .m3u8 -->
+    <title>Streamer Portal - Rick y Morty</title>
+    <!-- Cargamos hls.js para asegurar la reproducción de .m3u8 -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <!-- Fuente con estilo de ciencia ficción -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Fuentes espaciales y modernas -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --portal-green: #00ff66;
-            --portal-glow: rgba(0, 255, 102, 0.4);
-            --cyan-tech: #00e5ff;
-            --space-dark: #0a0c10;
-            --panel-bg: rgba(20, 26, 35, 0.85);
+            --green: #00ff66;
+            --green-glow: rgba(0, 255, 102, 0.5);
+            --cyan: #00e5ff;
+            --cyan-glow: rgba(0, 229, 255, 0.4);
+            --bg-dark: #07090e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--space-dark);
-            /* Fondo sutil de estrellas */
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* FONTO ANIMADO DE ESTRELLAS CIENTÍFICAS */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
                 radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
                 radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
             background-size: 550px 550px, 350px 350px;
             background-position: 0 0, 40px 60px;
-            color: #ffffff;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+            animation: spaceTravel 100s linear infinite;
+            z-index: -1;
+            opacity: 0.6;
         }
 
-        /* Título Estilo Rick y Morty animado */
+        @keyframes spaceTravel {
+            from { background-position: 0 0, 40px 60px; }
+            to { background-position: 550px 1100px, 390px 1110px; }
+        }
+
+        /* TÍTULO CON EFECTO NEÓN GLOW */
         h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-align: center;
-            color: var(--cyan-tech);
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            letter-spacing: 2px;
             margin-bottom: 30px;
-            text-shadow: 0 0 10px rgba(0, 229, 255, 0.6), 0 0 20px rgba(0, 229, 255, 0.3);
-            animation: floating 3s ease-in-out infinite alternate;
+            color: #fff;
+            text-align: center;
+            text-shadow: 0 0 10px var(--cyan-glow), 0 0 30px var(--cyan-glow);
+            animation: floatText 3s ease-in-out infinite alternate;
         }
 
         h1 span {
-            color: var(--portal-green);
-            text-shadow: 0 0 10px rgba(0, 255, 102, 0.6), 0 0 20px rgba(0, 255, 102, 0.3);
+            color: var(--green);
+            text-shadow: 0 0 10px var(--green-glow), 0 0 30px var(--green-glow);
         }
 
-        /* Panel de Control Estilo Gadget Científico */
-        .controls-container {
+        @keyframes floatText {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-10px); }
+        }
+
+        /* CONTENEDOR DE SELECTORES CON DISEÑO FUTURISTA */
+        .controls-card {
+            background: rgba(14, 20, 31, 0.85);
+            border: 2px solid #1a2638;
+            border-radius: 20px;
+            padding: 25px 35px;
             display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
-            background: var(--panel-bg);
-            padding: 20px 40px;
-            border-radius: 16px;
-            border: 2px solid #1f2d3d;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            transition: all 0.3s ease;
+            gap: 25px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 0 15px rgba(0, 229, 255, 0.05);
+            backdrop-filter: blur(10px);
+            transition: border-color 0.4s, box-shadow 0.4s;
         }
 
-        .controls-container:hover {
-            border-color: var(--cyan-tech);
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+        .controls-card:hover {
+            border-color: var(--cyan);
+            box-shadow: 0 10px 40px rgba(0, 229, 255, 0.15), inset 0 0 15px rgba(0, 229, 255, 0.05);
         }
 
-        .control-group {
+        .select-box {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
 
-        label {
+        .select-box label {
             font-family: 'Orbitron', sans-serif;
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--cyan-tech);
+            color: var(--cyan);
+            font-weight: 600;
         }
 
         select {
-            background: #11161e;
-            color: #fff;
-            border: 2px solid #2a3b50;
-            padding: 10px 16px;
-            border-radius: 8px;
+            background: #090d14;
+            color: #ffffff;
+            border: 2px solid #202e44;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 15px;
-            font-weight: bold;
             outline: none;
-            min-width: 160px;
-            transition: all 0.2s ease;
+            min-width: 180px;
+            transition: all 0.3s ease;
         }
 
-        select:focus, select:hover {
-            border-color: var(--portal-green);
-            box-shadow: 0 0 8px var(--portal-glow);
-            background: #161d28;
+        select:hover, select:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 15px var(--green-glow);
+            background: #0f1622;
         }
 
-        /* Contenedor del video con el Brillo del Portal Interdimensional */
-        .video-container {
+        /* REPRODUCTOR CON ANIMACIÓN DE PULSO DE PORTAL */
+        .player-wrapper {
             width: 100%;
-            max-width: 850px;
-            background: #000;
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.8), 0 0 20px var(--portal-glow);
+            max-width: 880px;
             aspect-ratio: 16 / 9;
-            border: 3px solid var(--portal-green);
-            animation: portalPulse 4s double infinite alternate;
+            background: #000000;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 4px solid var(--green);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), 0 0 25px var(--green-glow);
+            animation: portalPulse 4s infinite alternate;
         }
 
         video {
@@ -128,81 +154,77 @@
             display: block;
         }
 
-        /* Letrero de Estado tipo Computadora de Rick */
-        .status-message {
-            margin-top: 25px;
-            font-family: 'Orbitron', sans-serif;
-            color: #8fa3b9;
-            font-size: 14px;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 8px 20px;
-            border-radius: 20px;
-            border: 1px solid #1f2d3d;
-            letter-spacing: 1px;
-            text-align: center;
-        }
-
-        /* ANIMACIONES */
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            100% { transform: translateY(-8px); }
-        }
-
         @keyframes portalPulse {
             0% {
-                border-color: var(--portal-green);
-                box-shadow: 0 0 15px var(--portal-glow);
+                border-color: var(--green);
+                box-shadow: 0 0 25px var(--green-glow);
             }
             100% {
-                border-color: #88ff00;
-                box-shadow: 0 0 30px rgba(136, 255, 0, 0.6), inset 0 0 15px rgba(0,255,102,0.2);
+                border-color: #99ff00;
+                box-shadow: 0 0 40px rgba(153, 255, 0, 0.6), inset 0 0 20px rgba(0, 255, 102, 0.3);
             }
         }
 
-        /* Diseño responsivo para pantallas pequeñas */
-        @media(max-width: 600px) {
-            .controls-container {
+        /* LETRERO DE ESTADO */
+        .status-bar {
+            margin-top: 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            letter-spacing: 1px;
+            color: #a0aec0;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 25px;
+            border-radius: 30px;
+            border: 1px solid #1a2638;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            transition: all 0.3s;
+        }
+
+        /* Responsive para móviles */
+        @media (max-width: 650px) {
+            .controls-card {
                 flex-direction: column;
+                gap: 15px;
+                width: 100%;
                 padding: 20px;
-                width: 80%;
             }
             select {
                 width: 100%;
             }
             h1 {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <h1>Rick <span>y</span> Morty <span>TV</span></h1>
+    <h1>Rick <span>y</span> Morty <span>Player</span></h1>
 
-    <div class="controls-container">
-        <div class="control-group">
-            <label for="selectTemporada">Dimensión (Temp)</label>
+    <div class="controls-card">
+        <div class="select-box">
+            <label for="selectTemporada">Temporada</label>
             <select id="selectTemporada" onchange="cargarCapitulos()">
-                <!-- Se poblará dinámicamente -->
+                <!-- Dinámico -->
             </select>
         </div>
 
-        <div class="control-group">
-            <label for="selectCapitulo">Realidad (Cap)</label>
+        <div class="select-box">
+            <label for="selectCapitulo">Capítulo</label>
             <select id="selectCapitulo" onchange="reproducirEpisodio()">
-                <!-- Se poblará dinámicamente -->
+                <!-- Dinámico -->
             </select>
         </div>
     </div>
 
-    <div class="video-container">
+    <div class="player-wrapper">
         <video id="videoPlayer" controls></video>
     </div>
 
-    <div id="status" class="status-message">Cargando fluidos de portal...</div>
+    <div id="status" class="status-bar">Inicializando sistemas...</div>
 
     <script>
-        // Tu base de datos de enlaces
+        // Tu base de datos original e intacta
         const enlacesEpisodios = {
             "1": { 
                 "1": "https://ugc-cdn-caching-n384oe7sxr0kl6gmde.cloudwindow-route.com/engine/hls2-c/01/15756/wfuqw1qwv6si_,n,.urlset/index-v1-a1.m3u8?t=8cGwpGFDGbKZLEZ-r9Cd7Inq43s5vk6quE7DjfsOtHU&s=1783781429&e=14400&f=78783617&node=JCXGC7DCslfu0rvwJ6K1BRJVCyxxi6m30xpdbFHb0ao=&i=81.39&sp=2500&asn=3352&q=n&rq=yLfyHerCDkAFuRo3yCfExIzNFEI6CxEq2p8wSmDo",
@@ -243,7 +265,7 @@
             Object.keys(enlacesEpisodios).forEach(temp => {
                 let option = document.createElement('option');
                 option.value = temp;
-                option.textContent = `Dimensión ${temp}`;
+                option.textContent = `Temporada ${temp}`;
                 selectTemporada.appendChild(option);
             });
             cargarCapitulos();
@@ -257,7 +279,7 @@
                 Object.keys(enlacesEpisodios[tempSeleccionada]).forEach(cap => {
                     let option = document.createElement('option');
                     option.value = cap;
-                    option.textContent = `Realidad C-${cap}`;
+                    option.textContent = `Capítulo ${cap}`;
                     selectCapitulo.appendChild(option);
                 });
             }
@@ -270,12 +292,12 @@
             const videoUrl = enlacesEpisodios[temp][cap];
 
             if (!videoUrl || videoUrl.startsWith("TU_LINK_AQUI")) {
-                statusMessage.innerHTML = `⚠️ <span style="color:#ff4444">ERROR INTERDIMENSIONAL:</span> La realidad C-${cap} aún no ha sido escaneada.`;
+                statusMessage.innerHTML = `⚠️ <span style="color:#ff4444">Aviso:</span> La Temporada ${temp} - Capítulo ${cap} aún no está disponible.`;
                 video.pause();
                 return;
             }
 
-            statusMessage.innerHTML = ` Transmitiendo Dimensión ${temp} ──> Realidad C-${cap}`;
+            statusMessage.innerHTML = `🟢 Reproduciendo: Temporada ${temp} ──> Capítulo ${cap}`;
 
             if (hlsInstance) {
                 hlsInstance.destroy();
@@ -295,7 +317,7 @@
                     video.play();
                 });
             } else {
-                statusMessage.textContent = "Tu tecnología obsoleta no soporta flujos HLS (.m3u8).";
+                statusMessage.textContent = "Tu navegador no soporta el formato de streaming (.m3u8).";
             }
         }
 
